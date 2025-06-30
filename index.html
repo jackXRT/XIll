@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEXILL | Blockchain Intelligence Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <div class="top-header">
+    <div class="header-left">
+      <button class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="logo">
+        <i class="fas fa-dna"></i>
+        <span>HEXILL</span>
+      </div>
+    </div>
+    
+    <div class="mobile-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search..." id="mobileSearch">
+    </div>
+    
+    <div class="mobile-user-actions">
+      <div class="notification-btn" id="mobileNotifications">
+        <i class="fas fa-bell"></i>
+        <div class="notification-badge">0</div>
+      </div>
+      <div class="desktop-avatar" id="mobileAvatar">
+        <i class="fas fa-user"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <button class="close-sidebar" id="closeSidebar">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="logo">HEXILL</div>
+      </div>
+      
+      <div class="nav-item active" data-view="scan">
+        <i class="fas fa-search"></i>
+        <span>Scan</span>
+      </div>
+      
+      <div class="nav-item" data-view="alerts">
+        <i class="fas fa-bell"></i>
+        <span>Alerts</span>
+      </div>
+      
+      <div class="nav-item" data-view="monitor">
+        <i class="fas fa-chart-line"></i>
+        <span>Monitor</span>
+      </div>
+      
+      <div class="nav-item" data-view="experts">
+        <i class="fas fa-crown"></i>
+        <span>Experts</span>
+      </div>
+      
+      <div class="nav-item" data-view="chat">
+        <i class="fas fa-comments"></i>
+        <span>Community</span>
+      </div>
+
+      <div class="nav-item" data-view="profile">
+        <i class="fas fa-user"></i>
+        <span>My Profile</span>
+      </div>
+
+      <div class="divider"></div>
+      
+      <div class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </div>
+      
+      <div class="nav-item" id="authButton">
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Sign In</span>
+      </div>
+      
+      <div class="user-profile-card" data-view="profile" id="profileCard" style="display:none;">
+        <div class="user-avatar" id="sidebarAvatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-info">
+          <div class="user-name" id="sidebarUsername">Loading...</div>
+          <div class="user-status" id="sidebarRole">Guest</div>
+        </div>
+        <div class="user-badge" id="sidebarBadge">FREE</div>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="header">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="globalSearch" placeholder="Search addresses, transactions, or users...">
+        </div>
+        
+        <div class="user-actions">
+          <div class="notification-btn" id="desktopNotifications">
+            <i class="fas fa-bell"></i>
+            <div class="notification-badge">0</div>
+          </div>
+          <div class="desktop-user-profile" data-view="profile" id="desktopProfile">
+            <div class="desktop-avatar" id="desktopAvatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <span id="desktopUsername">Guest</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scan View -->
+      <div id="scanView" class="view-container active">
+        <div class="scan-container">
+          <h1>Hexill Scanner</h1>
+          <p class="tagline">Universal blockchain explorer</p>
+          
+          <div class="input-wrapper">
+            <input type="text" id="hashInput" placeholder="Paste a hash or address..." oninput="toggleClearIcon()">
+            <span class="clear-icon" id="clearIcon" onclick="clearInput()">&#x2715;</span>
+          </div>
+          
+          <button class="scan-btn" onclick="scanHash()">Scan</button>
+          
+          <div id="result" class="result-box">
+            <p style="color:#999;">Results will show here...</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Other Views -->
+      <div id="alertsView" class="view-container">
+        <h2>Alerts Dashboard</h2>
+        <div class="alerts-container" id="alertsContainer"></div>
+      </div>
+      
+      <div id="monitorView" class="view-container">
+        <h2>Wallet Monitoring</h2>
+        <div class="monitor-container" id="monitorContainer"></div>
+      </div>
+      
+      <div id="expertsView" class="view-container">
+        <h2>Expert Insights</h2>
+        <div class="experts-container" id="expertsContainer"></div>
+      </div>
+      
+      <div id="chatView" class="view-container">
+        <h2>Community Chat</h2>
+        <div class="chat-container" id="chatContainer"></div>
+      </div>
+
+      <div id="profileView" class="view-container">
+        <!-- Profile view content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="rolePopup" class="modal">
+    <div class="modal-content">
+      <h2>Choose Your Role</h2>
+      <div class="role-grid">
+        <button class="role-btn" onclick="selectRole('👨‍💻 Developer')">👨‍💻 Developer</button>
+        <button class="role-btn" onclick="selectRole('📈 Trader')">📈 Trader</button>
+        <button class="role-btn" onclick="selectRole('🧠 Analyst')">🧠 Analyst</button>
+        <button class="role-btn" onclick="selectRole('🔒 Security Researcher')">🔒 Security Researcher</button>
+        <button class="role-btn" onclick="selectRole('🧙 Crypto Wizard')">🧙 Crypto Wizard</button>
+        <button class="role-btn" onclick="selectRole('🎯 Blockchain Investigator')">🎯 Blockchain Investigator</button>
+        <button class="role-btn" onclick="selectRole('🧬 Smart Contract Auditor')">🧬 Smart Contract Auditor</button>
+        <button class="role-btn" onclick="selectRole('🚨 Rugpull Hunter')">🚨 Rugpull Hunter</button>
+        <button class="role-btn" onclick="selectRole('🧑‍💼 DeFi Strategist')">🧑‍💼 DeFi Strategist</button>
+        <button class="role-btn" onclick="selectRole('🕵️ Crypto Detective')">🕵️ Crypto Detective</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="hideAuthModal()">&times;</span>
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuthTab('login')">Sign In</div>
+        <div class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</div>
+      </div>
+      
+      <div id="loginForm" class="auth-form active">
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button onclick="handleLogin()">Sign In</button>
+        <div id="loginError" class="auth-error"></div>
+      </div>
+      
+      <div id="signupForm" class="auth-form">
+        <input type="email" id="signupEmail" placeholder="Email">
+        <input type="password" id="signupPassword" placeholder="Password">
+        <input type="text" id="signupUsername" placeholder="Username">
+        <button onclick="handleSignup()">Sign Up</button>
+        <div id="signupError" class="auth-error"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/scanner.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/chat.js"></script>
+<script type="module" src="js/main.js"></script>
+  <script>
+    // Initialize UI
+    document.addEventListener('DOMContentLoaded', () => {
+      initUI();
+      checkAuthState();
+    });
+  </script>
+</body>
+</html>
